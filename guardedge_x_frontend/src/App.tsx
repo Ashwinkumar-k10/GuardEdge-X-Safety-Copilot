@@ -943,31 +943,14 @@ export default function App() {
                     <span className="text-[9px] font-mono text-slate-500">YOLOv8 + KALMAN FILTER</span>
                   </div>
                   <div className="flex-1 bg-black min-h-[300px] flex items-center justify-center relative overflow-hidden">
-                    {usingMock ? (
-                      <div className="absolute inset-0 bg-slate-950 flex flex-col items-center justify-center p-4">
-                        <div className="w-full h-full relative scanline">
-                          {/* Emulated graphic canvas */}
-                          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-center text-xs text-[#00F2FE] font-orbitron">
-                            [EMULATED SCAN ACTIVE]
-                            <div className="text-[10px] text-slate-500 mt-1 font-mono">Distance to Worker: {telemetry.worker_distance}m</div>
-                          </div>
-                          {/* Bounding box mock */}
-                          <div
-                            className="absolute border-2 border-red-500 p-2 font-mono text-[9px] text-red-500"
-                            style={{
-                              bottom: `${Math.max(10, (10 - (telemetry.worker_distance || 10)) * 25)}px`,
-                              left: '45%',
-                              width: '60px',
-                              height: '110px'
-                            }}
-                          >
-                            W-004<br/>PPE: OK<br/>TTC: {telemetry.collision_countdown}s
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <img src="http://localhost:5000/video_feed/worksite" className="w-full h-full object-cover" alt="Worksite Feed" />
-                    )}
+                    <img
+                      src={`http://localhost:5000/video_feed/worksite?simulate=${usingMock ? 1 : 0}`}
+                      className="w-full h-full object-cover"
+                      alt="Worksite Feed"
+                      onError={(e) => {
+                        e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24'%3E%3Cpath fill='%23ef4444' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E";
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -981,19 +964,14 @@ export default function App() {
                     <span className="text-[9px] font-mono text-slate-500">MEDIAPIPE FACE MESH</span>
                   </div>
                   <div className="flex-1 bg-black min-h-[300px] flex items-center justify-center relative overflow-hidden">
-                    {usingMock ? (
-                      <div className="absolute inset-0 bg-slate-900 flex items-center justify-center flex-col p-4 scanline">
-                        <div className="w-24 h-24 rounded-full border border-dashed border-[#FF6B00] animate-pulse flex items-center justify-center">
-                          <Eye className="w-8 h-8 text-[#FF6B00]" />
-                        </div>
-                        <div className="mt-4 text-xs font-mono text-center text-[#FF6B00]">
-                          [IR CAMERA EMULATION]
-                          <div className="text-[10px] text-slate-400 mt-1">EAR: {telemetry.ear?.toFixed(3)} | Fatigue Prob: {Math.round(telemetry.fatigue_score * 100)}%</div>
-                        </div>
-                      </div>
-                    ) : (
-                      <img src="http://localhost:5000/video_feed/operator" className="w-full h-full object-cover" alt="Operator Feed" />
-                    )}
+                    <img
+                      src={`http://localhost:5000/video_feed/operator?simulate=${usingMock ? 1 : 0}`}
+                      className="w-full h-full object-cover"
+                      alt="Operator Feed"
+                      onError={(e) => {
+                        e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24'%3E%3Cpath fill='%23ef4444' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E";
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -1174,14 +1152,14 @@ export default function App() {
                     WORKSITE OPTICAL TARGET STREAM
                   </div>
                   <div className="bg-black aspect-video flex items-center justify-center relative overflow-hidden">
-                    {usingMock ? (
-                      <div className="absolute inset-0 bg-slate-950 flex flex-col items-center justify-center scanline">
-                        <Users className="w-12 h-12 text-[#00F2FE] animate-pulse" />
-                        <div className="text-xs font-mono text-slate-500 mt-4">Optical camera processing frame...</div>
-                      </div>
-                    ) : (
-                      <img src="http://localhost:5000/video_feed/worksite" className="w-full h-full object-cover" alt="Optical Target Feed" />
-                    )}
+                    <img
+                      src={`http://localhost:5000/video_feed/worksite?simulate=${usingMock ? 1 : 0}`}
+                      className="w-full h-full object-cover"
+                      alt="Optical Target Feed"
+                      onError={(e) => {
+                        e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24'%3E%3Cpath fill='%23ef4444' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E";
+                      }}
+                    />
                   </div>
                 </div>
 

@@ -362,7 +362,7 @@ def log_collision_incident(worker_track_id, tracks):
 # Video Overlay Renderer (OpenCV Frame Generators)
 # =====================================================================
 
-def generate_worksite_feed():
+def generate_worksite_feed(force_simulate=False):
     """Generates OpenCV worksite camera frames with live webcam OR tracking overlays."""
     warning_color = (0, 165, 255) # Orange (BGR)
     danger_color = (0, 0, 255) # Red
@@ -378,7 +378,7 @@ def generate_worksite_feed():
         
         global webcam_frame, webcam_active
         live_frame = None
-        if webcam_active:
+        if webcam_active and not force_simulate:
             with webcam_lock:
                 if webcam_frame is not None:
                     live_frame = webcam_frame.copy()
@@ -648,7 +648,7 @@ def generate_worksite_feed():
         time.sleep(0.066)
 
 
-def generate_operator_feed():
+def generate_operator_feed(force_simulate=False):
     """Generates OpenCV operator cabin camera frames (infrared simulation + face tracking)."""
     text_color = (0, 242, 254) # Cyan (BGR: 254, 242, 0)
     warning_color = (0, 165, 255) # Orange
@@ -663,7 +663,7 @@ def generate_operator_feed():
     while True:
         global webcam_frame, webcam_active
         live_frame = None
-        if webcam_active:
+        if webcam_active and not force_simulate:
             with webcam_lock:
                 if webcam_frame is not None:
                     live_frame = webcam_frame.copy()
@@ -850,11 +850,13 @@ def generate_operator_feed():
 
 @app.route('/video_feed/worksite')
 def video_feed_worksite():
-    return Response(generate_worksite_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    force_simulate = request.args.get('simulate', '0') == '1'
+    return Response(generate_worksite_feed(force_simulate), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/video_feed/operator')
 def video_feed_operator():
-    return Response(generate_operator_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    force_simulate = request.args.get('simulate', '0') == '1'
+    return Response(generate_operator_feed(force_simulate), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # Telemetry Server-Sent Events (SSE) stream
 @app.route('/telemetry')
