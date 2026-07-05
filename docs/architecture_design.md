@@ -240,30 +240,31 @@ stateDiagram-v2
 
 ### 5.4 Deployment Diagram
 ```mermaid
-node HeavyMachinery {
-    node RaspberryPi5 {
-        component FlaskApp ["Flask Web Server"]
-        component AIEngine ["Core AI Pipeline Engine (Python)"]
-        database LogDB ["SQLite Database"]
-        component GPIO_Driver ["RPi.GPIO Controller"]
+flowchart TD
+    subgraph HeavyMachinery ["Heavy Machinery Setup"]
+        subgraph RaspberryPi5 ["Raspberry Pi 5 Board"]
+            FlaskApp["Flask Web Server"]
+            AIEngine["Core AI Pipeline Engine (Python)"]
+            LogDB[("SQLite Database")]
+            GPIO_Driver["RPi.GPIO Controller"]
+        end
+
+        subgraph SensorsPins ["Sensors & Actuators"]
+            CSI_Cam["IMX219 Camera"]
+            Radar_Mod["SEN0395 mmWave"]
+            Buzzer["Alarms & Relay"]
+        end
+
+        subgraph CabinConsole ["Cabin HMI Console"]
+            Touchscreen["7-inch HDMI Screen"]
+        end
     end
 
-    node SensorsPins {
-        component CSI_Cam ["IMX219 Camera"]
-        component Radar_Mod ["SEN0395 mmWave"]
-        component Buzzer ["Alarms & Relay"]
-    end
-
-    node CabinConsole {
-        component Touchscreen ["7-inch HDMI Screen"]
-    end
-}
-
-CSI_Cam --> AIEngine : CSI Interface
-Radar_Mod --> AIEngine : UART/Serial
-AIEngine --> LogDB : SQLite connection
-AIEngine --> FlaskApp : Local socket
-FlaskApp --> Touchscreen : HTTP/SSE via Localhost Chrome
-AIEngine --> GPIO_Driver : GPIO Calls
-GPIO_Driver --> Buzzer : Physical wiring
+    CSI_Cam -->|CSI Interface| AIEngine
+    Radar_Mod -->|UART/Serial| AIEngine
+    AIEngine -->|SQLite Connection| LogDB
+    AIEngine -->|Local Socket| FlaskApp
+    FlaskApp -->|HTTP/SSE| Touchscreen
+    AIEngine -->|GPIO Calls| GPIO_Driver
+    GPIO_Driver -->|Physical Wiring| Buzzer
 ```
