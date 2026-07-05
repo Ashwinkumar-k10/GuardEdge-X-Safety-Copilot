@@ -1,0 +1,8 @@
+GuardEdge X - Industrial Safety Audit Report
+Generated: 2026-07-05 10:54:07
+Machinery ID: CAT-320D-01
+-----------------------------------------------
+METRIC, VALUE, COMPLIANCE STATUS
+Active Safety Score, 96.7%, COMPLIANT
+PPE Compliance Rate, 66.7%, IMPROVEMENT NEEDED
+Total Near-Misses Blocked, 12, SAFE INTERVENTIONS
